@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // if all else fails, this should defaul;t the map pin to 0, 0.
+        // if all else fails, this should default the map pin to 0, 0.
         if (currentLocation != null) {
             LatLng loc = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         }
