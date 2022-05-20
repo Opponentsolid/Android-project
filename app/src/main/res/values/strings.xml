@@ -1,0 +1,40 @@
+<resources>
+    <!-- Titles -->
+    <!-- Main -->
+    <string name="app_name">GPS Locator</string>
+    <!-- Maps -->
+    <string name="title_activity_maps">MapsActivity</string>
+    <!-- Finder -->
+
+    <!-- Buttons -->
+    <!-- Main -->
+    <string name="navigate_to_find_button">Find coordinates</string>
+    <string name="navigate_to_map_button">Go to map</string>
+    <string name="selection_confirm">Confirm</string>
+    <!-- Maps -->
+    <string name="maps_back_button_text">Back</string>
+    <!-- Finder -->
+    <string name="save_button_text">Save</string>
+    <string name="find_location_button_text">Get</string>
+    <string name="find_location_back_button_text">Back</string>
+
+    <!-- Text -->
+    <!-- Main -->
+    <string name="main_activity_text">Use the button below to navigate to map</string>
+    <string name="title_location_permission">GPS Permission</string>
+    <string name="text_location_permission">Would you like to grant GPS access?</string>
+    <!-- Maps -->
+    <string name="mapPermGranted">perm granted</string>
+    <!-- Finder -->
+
+    <!-- API keys -->
+    <string name="maps_api_key">AIzaSyA-HYZYitX3Ux6fzC5ZZ-Ps1RPmsEIYeeo</string>
+
+    <!-- Unused -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="PermissionDeny">Perm denied</string>
+    <string name="PermissionGrant">Perm granted</string>
+</resources>
