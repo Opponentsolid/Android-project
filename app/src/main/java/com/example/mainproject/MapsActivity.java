@@ -4,12 +4,19 @@ import static com.example.mainproject.util.Constants.REQUEST_CODE;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,25 +30,44 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.mainproject.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    //Create variables
-    //private TextView textView;
-    //private SupportMapFragment supportMapFragment;
 
-    private GoogleMap mMap;
-    private ActivityMapsBinding binding;
+    //Create variables
+    TextView country, address, longitude, latitude;
+    LatLng loc;
+    Button button;
+    GoogleMap mMap;
+    ActivityMapsBinding binding;
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
+    private LatLng mapPointer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        button = findViewById(R.id.get_location_button);
+        country = findViewById(R.id.country);
+        address = findViewById(R.id.address);
+        longitude = findViewById(R.id.longitude);
+        latitude = findViewById(R.id.latitude);
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getLastLocation();
+
+            }
+        });
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -49,46 +75,64 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+    private void getLastLocation() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
 
-        // if all else fails, this should default the map pin to 0, 0.
-        if (currentLocation != null) {
-            LatLng loc = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onSuccess(Location location) {
+                    Log.i("TAG", "Press");
+
+                    if (location != null) {
+                        Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                        List<Address> addresses = null;
+
+                        try {
+                            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            latitude.setText("Longitude: " + addresses.get(0).getLatitude());
+                            longitude.setText("Longitude: " + addresses.get(0).getLongitude());
+                            address.setText("Address: " + addresses.get(0).getAddressLine(0));
+                            country.setText("Country: " + addresses.get(0).getCountryName());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }
+            });
+        } else {
+            askPermission();
         }
-        LatLng loc = new LatLng(0, 0);
+    }
+
+    private void askPermission() {
+        ActivityCompat.requestPermissions(MapsActivity.this, new String[]
+                {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getLastLocation();
+            } else {
+                Toast.makeText(this, "Requires permissions", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        loc = new LatLng(0, 0);
         mMap.addMarker(new MarkerOptions().position(loc).title("I am here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
     }
 
     private void getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this
-                ,Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]
-                    {Manifest.permission.ACCESS_FINE_LOCATION
-                    }, REQUEST_CODE);
-            return;
-        }
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    currentLocation = location;
-                    Toast.makeText(getApplicationContext(), (int) currentLocation.getLatitude(),Toast.LENGTH_LONG)
-                            .show();
-                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                            .findFragmentById(R.id.map);
-                    assert supportMapFragment != null;
-                    supportMapFragment.getMapAsync(MapsActivity.this);
-                }
-            }
-        });
     }
 
     //Checks results of permission check
@@ -97,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (REQUEST_CODE) {
             case REQUEST_CODE:
-                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     getCurrentLocation();
                 }
                 break;

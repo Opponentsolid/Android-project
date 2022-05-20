@@ -37,4 +37,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="PermissionDeny">Perm denied</string>
     <string name="PermissionGrant">Perm granted</string>
+    <string name="mapCountry">Country</string>
+    <string name="mapLongitude">Longitude</string>
+    <string name="mapAddress">Address</string>
+    <string name="mapLatitude">Latitude</string>
 </resources>
