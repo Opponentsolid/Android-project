@@ -1,44 +1,37 @@
 <resources>
-    <!-- Titles -->
-    <!-- Main -->
+    <!--                        Titles                         -->
+        <!-- Main -->
     <string name="app_name">GPS Locator</string>
-    <!-- Maps -->
-    <string name="title_activity_maps">MapsActivity</string>
-    <!-- Finder -->
+        <!-- Maps -->
+    <string name="activity_maps_title_text">MapsActivity</string>
+        <!-- Save -->
 
-    <!-- Buttons -->
-    <!-- Main -->
-    <string name="navigate_to_find_button">Find coordinates</string>
-    <string name="navigate_to_map_button">Go to map</string>
-    <string name="selection_confirm">Confirm</string>
-    <!-- Maps -->
-    <string name="maps_back_button_text">Back</string>
-    <!-- Finder -->
-    <string name="save_button_text">Save</string>
-    <string name="find_location_button_text">Get</string>
-    <string name="find_location_back_button_text">Back</string>
+    <!--                        Buttons                        -->
+        <!-- Main -->
+    <string name="navigate_to_map_button_text">Go to map</string>
+    <string name="selection_confirm_button_text">Confirm</string>
+        <!-- Maps -->
+    <string name="navigate_to_save_button_text">Next</string>
+    <string name="find_location_button_text">Get Location</string>
+    <!-- Save -->
+    <string name="save_button_text">Press here to save</string>
 
-    <!-- Text -->
-    <!-- Main -->
+    <!--                        Text                           -->
+        <!-- Main -->
     <string name="main_activity_text">Use the button below to navigate to map</string>
-    <string name="title_location_permission">GPS Permission</string>
-    <string name="text_location_permission">Would you like to grant GPS access?</string>
-    <!-- Maps -->
-    <string name="mapPermGranted">perm granted</string>
-    <!-- Finder -->
+    <string name="title_location_permission_popup_text">GPS Permission</string>
+    <string name="text_location_permission_popup_text">Would you like to grant GPS access?</string>
+        <!-- Maps -->
+    <string name="map_latitude_text">Latitude:\u0020</string>
+    <string name="map_longitude_text">Longitude:\u0020</string>
+    <string name="map_address_text">Address:\u0020</string>
+    <string name="map_country_text">Country:\u0020</string>
+        <!-- Save -->
+    <string name="save_activity_text">Confirm the details below are correct, then press the button below to save the details</string>
+    <string name="save_address_text">Address:\u0020</string>
+    <string name="save_latitude_text">Latitude:\u0020</string>
+    <string name="save_longitude_text">Longitude:\u0020</string>
 
-    <!-- API keys -->
+    <!--                        API keys                       -->
     <string name="maps_api_key">AIzaSyA-HYZYitX3Ux6fzC5ZZ-Ps1RPmsEIYeeo</string>
-
-    <!-- Unused -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="PermissionDeny">Perm denied</string>
-    <string name="PermissionGrant">Perm granted</string>
-    <string name="mapCountry">Country</string>
-    <string name="mapLongitude">Longitude</string>
-    <string name="mapAddress">Address</string>
-    <string name="mapLatitude">Latitude</string>
 </resources>

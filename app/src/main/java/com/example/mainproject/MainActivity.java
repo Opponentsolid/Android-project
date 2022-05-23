@@ -1,45 +1,38 @@
 package com.example.mainproject;
 
+import static android.content.ContentValues.TAG;
 import static com.example.mainproject.util.Constants.LOCATION_PERMISSION_REQUEST_CODE;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.List;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
-    private LocationManager locationManager;
-    private String provider;
-    private TextView textView;
-    private Button mapsButton;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mapsButton = findViewById(R.id.mapButton);
-        textView = findViewById(R.id.textView);
+        Button mapsButton = findViewById(R.id.mapButton);
         mapsButton.setOnTouchListener(this);
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        provider = locationManager.getBestProvider(new Criteria(), false);
     }
 
     public void openMapActivity() {
@@ -62,9 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
                 new AlertDialog.Builder(this)
-                        .setTitle(R.string.title_location_permission)
-                        .setMessage(R.string.text_location_permission)
-                        .setPositiveButton(R.string.selection_confirm, new DialogInterface.OnClickListener() {
+                        .setTitle(R.string.title_location_permission_popup_text)
+                        .setMessage(R.string.text_location_permission_popup_text)
+                        .setPositiveButton(R.string.selection_confirm_button_text, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //Prompt the user once explanation has been shown
@@ -88,18 +81,50 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
     }
 
+    //Listening for onTouch event
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouch(View view, MotionEvent event) {
         if (checkLocationPermission()) {
             //Checks if map button is pressed
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_UP:
-                    openMapActivity();
-                    break;
-                default:
-                    return super.onTouchEvent(event);
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                openMapActivity();
+            } else {
+                return super.onTouchEvent(event);
             }
             return true;
         }
         return false;
     }
+
+    //Lifecycle callbacks
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume MainActivity");
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause MainActivity");
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        Log.d(TAG, "onStop MainActivity");
+        super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+        Log.d(TAG, "onRestart MainActivity");
+        super.onRestart();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy MainActivity");
+        super.onDestroy();
+    }
+
 }

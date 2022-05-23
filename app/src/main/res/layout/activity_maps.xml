@@ -9,10 +9,10 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="416dp"
-        android:layout_height="517dp"
+        android:layout_width="411dp"
+        android:layout_height="474dp"
         map:layout_constraintEnd_toEndOf="parent"
-        map:layout_constraintHorizontal_bias="0.5"
+        map:layout_constraintHorizontal_bias="0.333"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent"
         tools:context=".MapsActivity" />
@@ -21,18 +21,18 @@
         android:id="@+id/get_location_button"
         android:layout_width="168dp"
         android:layout_height="49dp"
-        android:layout_marginStart="120dp"
         android:text="@string/find_location_button_text"
         map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toStartOf="@+id/buttonToSave"
+        map:layout_constraintHorizontal_bias="0.5"
         map:layout_constraintStart_toStartOf="parent"
-        map:layout_constraintTop_toBottomOf="@+id/map"
-        map:layout_constraintVertical_bias="0.934" />
+        map:layout_constraintTop_toBottomOf="@+id/longitude" />
 
     <TextView
         android:id="@+id/country"
         android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:text="@string/mapCountry"
+        android:layout_height="50dp"
+        android:text="@string/map_country_text"
         android:textSize="20sp"
         map:layout_constraintBottom_toTopOf="@+id/latitude"
         map:layout_constraintEnd_toEndOf="parent"
@@ -43,8 +43,8 @@
     <TextView
         android:id="@+id/longitude"
         android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:text="@string/mapLongitude"
+        android:layout_height="50dp"
+        android:text="@string/map_longitude_text"
         android:textSize="20sp"
         map:layout_constraintBottom_toTopOf="@+id/get_location_button"
         map:layout_constraintEnd_toEndOf="parent"
@@ -55,8 +55,8 @@
     <TextView
         android:id="@+id/address"
         android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:text="@string/mapAddress"
+        android:layout_height="50dp"
+        android:text="@string/map_address_text"
         android:textSize="20sp"
         map:layout_constraintBottom_toTopOf="@+id/country"
         map:layout_constraintEnd_toEndOf="parent"
@@ -67,13 +67,24 @@
     <TextView
         android:id="@+id/latitude"
         android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:text="@string/mapLatitude"
+        android:layout_height="50dp"
+        android:text="@string/map_latitude_text"
         android:textSize="20sp"
         map:layout_constraintBottom_toTopOf="@+id/longitude"
         map:layout_constraintEnd_toEndOf="parent"
         map:layout_constraintHorizontal_bias="0.5"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toBottomOf="@+id/country" />
+
+    <Button
+        android:id="@+id/buttonToSave"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="@string/navigate_to_save_button_text"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.5"
+        map:layout_constraintStart_toEndOf="@+id/get_location_button"
+        map:layout_constraintTop_toBottomOf="@+id/longitude" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

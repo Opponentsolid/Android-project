@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="363dp"
+        android:layout_height="413dp"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.002"
+        map:layout_constraintStart_toStartOf="parent"
+        map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="1.0"
+        tools:context=".MapsActivity" />
+
+    <TextView
+        android:id="@+id/latitude"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="54dp"
+        android:text="@string/map_latitude_text"
+        android:textSize="20sp"
+        map:layout_constraintBottom_toTopOf="@+id/longitude"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.517"
+        map:layout_constraintStart_toEndOf="@+id/map"
+        map:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonToSave"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:text="@string/navigate_to_save_button_text"
+        map:layout_constraintBottom_toTopOf="@+id/get_location_button"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.501"
+        map:layout_constraintStart_toEndOf="@+id/map"
+        map:layout_constraintTop_toBottomOf="@+id/country" />
+
+    <TextView
+        android:id="@+id/longitude"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:text="@string/map_longitude_text"
+        android:textSize="20sp"
+        map:layout_constraintBottom_toTopOf="@+id/address"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.517"
+        map:layout_constraintStart_toEndOf="@+id/map"
+        map:layout_constraintTop_toBottomOf="@+id/latitude" />
+
+    <TextView
+        android:id="@+id/country"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:text="@string/map_country_text"
+        android:textSize="20sp"
+        map:layout_constraintBottom_toTopOf="@+id/buttonToSave"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.517"
+        map:layout_constraintStart_toEndOf="@+id/map"
+        map:layout_constraintTop_toBottomOf="@+id/address" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:text="@string/map_address_text"
+        android:textSize="20sp"
+        map:layout_constraintBottom_toTopOf="@+id/country"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.517"
+        map:layout_constraintStart_toEndOf="@+id/map"
+        map:layout_constraintTop_toBottomOf="@+id/longitude" />
+
+    <Button
+        android:id="@+id/get_location_button"
+        android:layout_width="193dp"
+        android:layout_height="52dp"
+        android:text="@string/find_location_button_text"
+        map:layout_constraintBottom_toBottomOf="parent"
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintStart_toEndOf="@+id/map"
+        map:layout_constraintTop_toBottomOf="@+id/buttonToSave" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
