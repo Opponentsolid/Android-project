@@ -1,7 +1,6 @@
 package com.example.mainproject;
 
 import static android.content.ContentValues.TAG;
-import static androidx.core.content.PackageManagerCompat.LOG_TAG;
 import static com.example.mainproject.util.Constants.REQUEST_CODE;
 
 import androidx.annotation.NonNull;
@@ -19,7 +18,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +37,8 @@ import com.example.mainproject.databinding.ActivityMapsBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
     //Create variables
@@ -70,22 +66,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Get available location provider
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         //Set on click listener for button to get current location
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getLastLocation();
-            }
-        });
+        button.setOnClickListener(view -> getLastLocation());
         //Set on click listener for button to go to next page,
         //requires output from getLastLocation();
-        buttonToSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (loc != null) {
-                    openSaveActivity();
-                } else {
-                    Toast.makeText(MapsActivity.this, "Cannot proceed without values", Toast.LENGTH_SHORT).show();
-                }
+        buttonToSave.setOnClickListener(view -> {
+            if (loc != null) {
+                openSaveActivity();
+            } else {
+                Toast.makeText(MapsActivity.this, "Cannot proceed without values", Toast.LENGTH_SHORT).show();
             }
         });
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -113,53 +101,50 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     //Code to get the users current location based on GPS
+    @SuppressLint("SetTextI18n")
     private void getLastLocation() {
         //Checks if we have permission, if not exit
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //Sets onsuccesslistener for location, getting a provider launches the internal code
-            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                //Normalises content
-                @SuppressLint("SetTextI18n")
-                @Override
-                //If location is found, launch internal code
-                public void onSuccess(Location location) {
-                    //if location variable is not null
-                    if (location != null) {
-                        //Set a new Geocoder to get locale information
-                        Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
-                        //Set a new List for addresses
-                        List<Address> addresses = null;
-                        //Set a new variable to get Longitude and Latitude
-                        loc = new LatLng(location.getLatitude(), location.getLongitude());
-                        //Try internal code
-                        try {
-                            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                            //If addresses isn't null, run internal code
-                            if (addresses != null) {
-                                //set variables
-                                latid = String.valueOf(addresses.get(0).getLatitude());
-                                longi = String.valueOf(addresses.get(0).getLongitude());
-                                addre = addresses.get(0).getAddressLine(0);
-                                count = addresses.get(0).getCountryName();
-                                //set textviews to match new data
-                                latitude.setText("Latitude: " + latid);
-                                longitude.setText("Longitude: " + longi);
-                                address.setText("Address: " + addre);
-                                country.setText("Country: " + count);
-                                //set text on pointer
-                                mMap.addMarker(new MarkerOptions().position(loc).title("I am here"));
-                                //move map marker
-                                mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
-                                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(loc, 15);
-                                mMap.animateCamera(cameraUpdate);
-                            }
-                        } catch (IOException e) {
-                            //if try catch fails, print to log
-                            e.printStackTrace();
+            //Normalises content
+//If location is found, launch internal code
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(location -> {
+                //if location variable is not null
+                if (location != null) {
+                    //Set a new Geocoder to get locale information
+                    Geocoder geocoder = new Geocoder(MapsActivity.this, Locale.getDefault());
+                    //Set a new List for addresses
+                    List<Address> addresses = null;
+                    //Set a new variable to get Longitude and Latitude
+                    loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    //Try internal code
+                    try {
+                        addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                        //If addresses isn't null, run internal code
+                        if (addresses != null) {
+                            //set variables
+                            latid = String.valueOf(addresses.get(0).getLatitude());
+                            longi = String.valueOf(addresses.get(0).getLongitude());
+                            addre = addresses.get(0).getAddressLine(0);
+                            count = addresses.get(0).getCountryName();
+                            //set textviews to match new data
+                            latitude.setText(getString(R.string.map_latitude_text) + latid);
+                            longitude.setText(getString(R.string.map_longitude_text) + longi);
+                            address.setText(getString(R.string.map_address_text) + addre);
+                            country.setText(getString(R.string.map_country_text) + count);
+                            //set text on pointer
+                            mMap.addMarker(new MarkerOptions().position(loc).title("I am here"));
+                            //move map marker
+                            mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+                            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(loc, 15);
+                            mMap.animateCamera(cameraUpdate);
                         }
-
-
+                    } catch (IOException e) {
+                        //if try catch fails, print to log
+                        e.printStackTrace();
                     }
+
+
                 }
             });
         } else {
